@@ -1,0 +1,41 @@
+{
+  "name": "nextjs-boilerplate",
+  "version": "0.0.1",
+  "description": "Boilerplate for my Next.js applications",
+  "main": "index.js",
+  "scripts": {
+    "develop": "node src/server/index.js",
+    "build": "next build src/client",
+    "start": "NODE_ENV=production node src/server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enzoferey/nextjs-boilerplate.git"
+  },
+  "keywords": [
+    "nextjs",
+    "admin-panel",
+    "admin-dashboard"
+  ],
+  "author": "Enzo Ferey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enzoferey/nextjs-boilerplate/issues"
+  },
+  "homepage": "https://github.com/enzoferey/nextjs-boilerplate#readme",
+  "dependencies": {
+    "@zeit/next-sass": "^1.0.1",
+    "express": "^4.16.4",
+    "next": "^7.0.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "dotenv": "^6.2.0",
+    "dotenv-webpack": "^1.7.0",
+    "prettier": "^1.15.3"
+  }
+}
