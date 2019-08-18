@@ -1,52 +1,47 @@
-// Set dotenv
-require("dotenv").config();
-
+const path = require("path");
 const express = require("express");
 const next = require("next");
-const favicon = require("serve-favicon");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+const bearerToken = require("express-bearer-token");
+const favicon = require("serve-favicon");
 
-const path = require("path");
+const { PRODUCTION, PORT } = require("./config");
 
-const { PORT, PRODUCTION } = require("./config");
+const languageMiddleware = require("./middlewares/language");
+const forceHttpsMiddleware = require("./middlewares/forceHttps");
 
 const apiRoutes = require("./routes/api");
 const clientRoutes = require("./routes/client");
 
-const internalErrorMiddleware = require("./middlewares/internalError");
+const connectDb = require("./database/connection");
 
-const { createDatabaseConnection } = require("./connection");
-
-// Create dabatase connection
-createDatabaseConnection();
-
-// Prepare NextjsApp
+// Initialisations
+const db = connectDb();
 const NextJsApp = next({
   dev: !PRODUCTION,
-  dir: path.resolve(__dirname, "../client"),
+  dir: path.resolve(__dirname, "../client/"),
 });
 
 NextJsApp.prepare().then(() => {
   const server = express();
 
-  // Set favicon
-  server.use(favicon(path.resolve(__dirname, "../client/static/favicon.ico")));
-
-  // Set middlewares
+  // Middlewares
   server.use(cors());
-  server.use(bodyParser.urlencoded({ extended: false }));
-  server.use(bodyParser.json());
-  server.use(internalErrorMiddleware()); // Implement res.sendInternalError
+  server.use(express.json()); // parse POST body
+  server.use(bearerToken()); // parse Bearer Token
+  server.use(languageMiddleware()); // parse locale
+  server.use(forceHttpsMiddleware()); // force https redirects
+  server.use(favicon(path.join(__dirname, "./public/favicon.ico"))); // favicon
+  server.use(express.static(path.join(__dirname, "./public/"))); // static folder
 
-  // Register API routes
-  server.use("/", apiRoutes());
+  // API routes
+  server.use("/api", apiRoutes(db));
 
-  // Register client routes
+  // Frontend routes
   server.use("/", clientRoutes(NextJsApp));
 
-  server.listen(PORT, err => {
-    if (err) throw err;
-    console.log(`> Ready on http://localhost:${PORT}`);
+  server.listen(PORT, error => {
+    if (error) throw error;
+    console.log(`> App listening on port ${PORT}`);
   });
 });

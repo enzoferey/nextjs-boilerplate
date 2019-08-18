@@ -1,41 +1,46 @@
 {
-  "name": "nextjs-boilerplate",
-  "version": "0.0.1",
-  "description": "Boilerplate for my Next.js applications",
+  "name": "next-js-boilerplate",
+  "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "develop": "node src/server/index.js",
-    "build": "next build src/client",
-    "start": "NODE_ENV=production node src/server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/enzoferey/nextjs-boilerplate.git"
-  },
-  "keywords": [
-    "nextjs",
-    "admin-panel",
-    "admin-dashboard"
-  ],
   "author": "Enzo Ferey",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/enzoferey/nextjs-boilerplate/issues"
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server/index.js",
+    "develop": "nodemon src/server/index.js",
+    "init:db": "node src/server/database/init.js",
+    "seed:db": "node src/server/database/seed.js",
+    "build": "next build ./src/client && node scripts/buildCrawlerFiles.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "prettier": "prettier --config \"./.prettierrc\" --write \"./**/*.@(tsx|ts|js|scss|json)\""
   },
-  "homepage": "https://github.com/enzoferey/nextjs-boilerplate#readme",
   "dependencies": {
-    "@zeit/next-sass": "^1.0.1",
-    "express": "^4.16.4",
-    "next": "^7.0.2",
-    "prop-types": "^15.6.2",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
-    "serve-favicon": "^2.5.0"
+    "@types/node": "^12.6.9",
+    "@types/react": "^16.8.24",
+    "accept": "^3.1.3",
+    "axios": "^0.19.0",
+    "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-bearer-token": "^2.4.0",
+    "intl": "^1.2.5",
+    "jsonwebtoken": "^8.5.1",
+    "next": "^9.0.3",
+    "pg": "^7.12.0",
+    "pg-format": "^1.0.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-intl": "^2.9.0",
+    "serve-favicon": "^2.5.0",
+    "styled-components": "^4.3.2",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
-    "dotenv": "^6.2.0",
+    "babel-plugin-styled-components": "^1.10.6",
+    "dotenv": "^8.0.0",
     "dotenv-webpack": "^1.7.0",
-    "prettier": "^1.15.3"
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "prettier": "1.18.2"
   }
 }

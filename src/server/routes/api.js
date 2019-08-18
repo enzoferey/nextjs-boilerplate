@@ -1,32 +1,21 @@
 const createRouter = require("express").Router;
 const router = createRouter();
 
-const { login } = require("../modules/login");
-const { register } = require("../modules/register");
-const { checkSession } = require("../modules/session");
+const {
+  doLoginController,
+  createUserController,
+  verifyAuthController,
+} = require("../modules/auth");
 
-// Login
-router.get("/api/login", (req, res) => {
-  console.log("Login", req.query);
+// External interface
+let db;
+const initRoutes = targetDb => {
+  db = targetDb;
 
-  const { email, password } = req.query;
-  login(res, email, password);
-});
+  // Routes
+  router.post("/login", doLoginController(db));
+  router.post("/register", createUserController(db));
 
-// Register
-router.post("/api/register", (req, res) => {
-  console.log("Register", req.body);
-
-  const { username, email, password } = req.body;
-  register(res, username, email, password);
-});
-
-// Session
-router.post("/api/session", (req, res) => {
-  console.log("Session", req.body);
-
-  const { email, token } = req.body;
-  checkSession(res, email, token);
-});
-
-module.exports = () => router;
+  return router;
+};
+module.exports = initRoutes;
