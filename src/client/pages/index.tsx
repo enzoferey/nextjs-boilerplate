@@ -7,11 +7,15 @@ import BaseLayout from "../layouts/BaseLayout";
 const ExamplePage = () => {
   return (
     <BaseLayout>
-      <FormattedMessage id="TEST" />
+      <Red>
+        <FormattedMessage id="TEST" />
+      </Red>
     </BaseLayout>
   );
 };
 
 export default ExamplePage;
 
-const Main = styled.div``;
+const Red = styled.span`
+  color: red;
+`;

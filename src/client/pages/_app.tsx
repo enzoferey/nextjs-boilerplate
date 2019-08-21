@@ -8,7 +8,6 @@ import ResetCSS from "../styles/reset";
 
 import DataContext from "../state/DataContext";
 
-import PageWrapper from "../components/PageWrapper";
 import { PRODUCTION, GOOGLE_ANALYTICS_ID } from "../config/env";
 
 type LocaleContext = {
@@ -111,9 +110,7 @@ export default class MyApp extends App {
         >
           <LocaleContext.Provider value={{ setLocale: this.setLocale }}>
             <DataContext>
-              <PageWrapper>
-                <Component {...pageProps} />
-              </PageWrapper>
+              <Component {...pageProps} />
             </DataContext>
           </LocaleContext.Provider>
         </IntlProvider>
